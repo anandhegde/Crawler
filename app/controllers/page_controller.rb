@@ -1,32 +1,32 @@
 class PageController < ApplicationController
 	def home
+		@sitenames = ['http://www.yourstory.com','http://techsparks.yourstory.com/2014/']
 		@c = Scrape.new
-		@name = @c.crawl
 	end
 end
 
 class Scrape
-	def crawl
+	def crawl(sitename)
 		mechanize = Mechanize.new
-		@page =  mechanize.get('http://www.yourstory.com')
+		@page =  mechanize.get(sitename)
 		if !@page.at('meta[name="description"]').blank?
 			@name =  @page.at('meta[name="description"]')[:content]
 		else
-			@name = 'nodescription'
+			@name = 'null'
 		end
 
 		if !@page.at('meta[name="keywords"]').blank?
 			@keywords = @page.at('meta[name="keywords"]')[:content]
 		else
-			@keywords = 'nokeywords'
+			@keywords = 'null'
 		end
 
 		if !@page.title.blank?
 			@title = @page.title
 		else
-			@title = 'notitle'
+			@title = 'null'
 		end
 
-		return {'title'=>@title,'name'=>@name,'keywords'=>@keywords}
+		return {'title'=>@title,'name'=>@name,'keyword'=>@keywords}
 	end
 end

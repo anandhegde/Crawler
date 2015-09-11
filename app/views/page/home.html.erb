@@ -1,1 +1,8 @@
-<h1> <%= @name %>
+<% @sitenames.each do |sitename| %>
+	<h1><strong><%= sitename %></strong></h1>
+	<% @result = @c.crawl(sitename) %>
+	<% @result.each_pair do |key,value|%>
+	<h3><%= key %>:</h3> <h5><%= value %></h5>
+	<% end %>
+	<hr>
+<% end %>
